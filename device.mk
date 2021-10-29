@@ -22,9 +22,27 @@
 #
 
 # Inherit from sm6125-common
-$(call inherit-product, device/xiaomi/sm6125-common/common.mk)
+$(call inherit-product, device/xiaomi/sm6125-common/trinket.mk)
+
+# Get non-open-source specific aspects
+$(call inherit-product-if-exists, vendor/xiaomi/ginkgo/ginkgo-vendor.mk)
 
 DEVICE_PATH := device/xiaomi/ginkgo
+
+# Overlays
+DEVICE_PACKAGE_OVERLAYS += \
+    $(DEVICE_PATH)/overlay \
+    $(DEVICE_PATH)/overlay-lineage
+
+PRODUCT_ENFORCE_RRO_EXCLUDED_OVERLAYS += \
+    $(LOCAL_PATH)/overlay-lineage/lineage-sdk
+
+PRODUCT_PACKAGES += \
+    NoCutoutOverlay
+
+# Screen density
+TARGET_SCREEN_HEIGHT := 2340
+TARGET_SCREEN_WIDTH := 1080
 
 # Inherit properties.mk
 $(call inherit-product, $(DEVICE_PATH)/properties.mk)
@@ -83,21 +101,7 @@ PRODUCT_COPY_FILES += \
     frameworks/native/data/etc/android.hardware.nfc.uicc.xml:$(TARGET_COPY_OUT_ODM)/etc/permissions/sku_nfc/android.hardware.nfc.uicc.xml \
     frameworks/native/data/etc/com.nxp.mifare.xml:$(TARGET_COPY_OUT_ODM)/etc/permissions/sku_nfc/com.nxp.mifare.xml
 
-# Overlays
-DEVICE_PACKAGE_OVERLAYS += \
-    $(DEVICE_PATH)/overlay \
-    $(DEVICE_PATH)/overlay-lineage
-
-PRODUCT_ENFORCE_RRO_EXCLUDED_OVERLAYS += \
-    $(LOCAL_PATH)/overlay-lineage/lineage-sdk
-
-PRODUCT_PACKAGES += \
-    NoCutoutOverlay
-
 # Ramdisk
 PRODUCT_PACKAGES += \
     fstab.qcom \
     init.device.rc
-
-# Inherit proprietary files
-$(call inherit-product-if-exists, vendor/xiaomi/ginkgo/ginkgo-vendor.mk)

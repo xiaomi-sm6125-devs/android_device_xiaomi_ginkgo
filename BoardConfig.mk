@@ -27,50 +27,47 @@
 
 DEVICE_PATH := device/xiaomi/ginkgo
 
-BUILD_BROKEN_DUP_RULES := true
+# Kernel
+TARGET_KERNEL_CONFIG := vendor/ginkgo-perf_defconfig
 
 # Assert
 TARGET_OTA_ASSERT_DEVICE := ginkgo,willow
 
-# Boot animation
-TARGET_SCREEN_HEIGHT := 2340
-TARGET_SCREEN_WIDTH := 1080
+# Build
+BUILD_BROKEN_DUP_RULES := true
 
 # Display
 TARGET_SCREEN_DENSITY := 420
 
 # HIDL
-ODM_MANIFEST_SKUS += \
-    nfc
-
 ODM_MANIFEST_NFC_FILES := $(DEVICE_PATH)/manifest_nfc.xml
+ODM_MANIFEST_SKUS += nfc
 
 # Init
 SOONG_CONFIG_NAMESPACES += XIAOMI_TRINKET_INIT
 SOONG_CONFIG_XIAOMI_TRINKET_INIT := DEVICE_LIB
 SOONG_CONFIG_XIAOMI_TRINKET_INIT_DEVICE_LIB := //$(DEVICE_PATH):libinit_ginkgo
 
-# Kernel
-TARGET_KERNEL_CONFIG := vendor/ginkgo-perf_defconfig
-
 # NFC
 TARGET_USES_NQ_NFC := true
 
-# Partitions
+# Partitions - System
 BOARD_SYSTEMIMAGE_PARTITION_SIZE := 4831838208
+
+# Partitions - Vendor
 BOARD_VENDORIMAGE_PARTITION_SIZE := 1610612736
 
-# Recovery
+# Partitions - Recovery
 TARGET_RECOVERY_FSTAB := $(DEVICE_PATH)/rootdir/etc/fstab.qcom
 
 # Releasetools
 TARGET_RELEASETOOLS_EXTENSIONS := $(DEVICE_PATH)
 
-# Security patch level
-VENDOR_SECURITY_PATCH := 2020-07-01
-
-# SELinux
+# Sepolicy - ginkgo
 BOARD_SEPOLICY_DIRS += $(DEVICE_PATH)/sepolicy/vendor
+
+# Vendor security patch level
+VENDOR_SECURITY_PATCH := 2020-07-01
 
 # Inherit the proprietary files
 -include vendor/xiaomi/ginkgo/BoardConfigVendor.mk
