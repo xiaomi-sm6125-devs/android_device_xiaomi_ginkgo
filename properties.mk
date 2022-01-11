@@ -15,3 +15,7 @@ PRODUCT_PROPERTY_OVERRIDES += \
     persist.vendor.camera.awb.sync=2 \
     persist.vendor.camera.af.sync=2 \
     persist.vendor.dualcam.lpm.enable=0
+
+# NFC
+PRODUCT_PROPERTY_OVERRIDES += \
+    ro.se.type=HCE,UICC
